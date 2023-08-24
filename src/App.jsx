@@ -5,6 +5,10 @@ import Nav from "./pages/Nav";
 import Attorneys from "./pages/Attorneys";
 import Login from "./pages/Login";
 import { Register } from "./pages/Register";
+import Account from "./pages/Account";
+import AccountNav from "./components/Account/AccountNav";
+import NotFound from "./pages/NotFound";
+import ContactUs from "./pages/ContactUs";
 
 function App() {
   const router = createBrowserRouter([
@@ -16,6 +20,12 @@ function App() {
         { path: "/attorneys", element: <Attorneys /> },
         { path: "/login", element: <Login /> },
         { path: "/register", element: <Register /> },
+        { path: "/contact-us", element: <ContactUs /> },
+        {
+          element: <AccountNav />,
+          children: [{ path: "/account", element: <Account /> }],
+        },
+        { path: "*", element: <NotFound /> },
       ],
     },
   ]);

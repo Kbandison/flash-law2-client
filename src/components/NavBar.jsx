@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { Fragment, useState, useEffect } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { useSelector, useDispatch } from "react-redux";
@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 const navigation = [
   { name: "Home", href: "/", current: true },
   { name: "Find An Attorney", href: "/attorneys", current: false },
-  { name: "Contact Us", href: "/register", current: false },
+  { name: "Contact Us", href: "/contact-us", current: false },
   { name: "About Us", href: "#", current: false },
 ];
 
@@ -20,9 +20,27 @@ function NavBar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // const state = useState({
+  //   name: "",
+  // });
+
+  // console.log(state.name);
+
   const user = useSelector((state) => state.auth.user);
   const loggedUser = user && user.user;
-  console.log(loggedUser);
+
+  // const currentSswitcher = (e) => {
+  //   state.name = e;
+  //   console.log(state.name);
+
+  //   navigation.map((item) => {
+  //     if (item.name === e) {
+  //       item.current = true;
+  //     } else {
+  //       item.current = false;
+  //     }
+  //   });
+  // };
 
   return (
     <Disclosure as="nav" className="bg-inherit relative z-10">
@@ -68,9 +86,10 @@ function NavBar() {
                           item.current
                             ? "bg-gray-900 text-white"
                             : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                          "rounded-md px-3 py-2 text-sm font-medium"
+                          "rounded-md px-3 py-2 text-sm font-medium ease-in-out duration-500"
                         )}
                         aria-current={item.current ? "page" : undefined}
+                        // onClick={() => currentSswitcher(item.name)}
                       >
                         {item.name}
                       </a>
@@ -86,7 +105,9 @@ function NavBar() {
                       <Menu.Button className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 w-8 h-8 justify-center items-center">
                         <span className="sr-only">Open user menu</span>
                         <h3 className="text-white font-bold">
-                          {user ? loggedUser.firstName.charAt(0) : null}
+                          {user
+                            ? loggedUser.firstName.charAt(0).toUpperCase()
+                            : null}
                         </h3>
                       </Menu.Button>
                     </div>
@@ -103,7 +124,7 @@ function NavBar() {
                         <Menu.Item>
                           {({ active }) => (
                             <a
-                              href="#"
+                              href="/account"
                               className={classNames(
                                 active ? "bg-gray-100" : "",
                                 "block px-4 py-2 text-sm text-gray-700"
@@ -113,7 +134,7 @@ function NavBar() {
                             </a>
                           )}
                         </Menu.Item>
-                        <Menu.Item>
+                        {/* <Menu.Item>
                           {({ active }) => (
                             <a
                               href="#"
@@ -125,7 +146,7 @@ function NavBar() {
                               Settings
                             </a>
                           )}
-                        </Menu.Item>
+                        </Menu.Item> */}
                         <Menu.Item>
                           {({ active }) => (
                             <a

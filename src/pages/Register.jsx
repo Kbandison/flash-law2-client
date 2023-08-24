@@ -116,12 +116,12 @@ export const Register = () => {
         </form>
 
         <p className="mt-10 text-center text-sm text-gray-500">
-          Don't Have an Account?{" "}
+          Already Have an Account?{" "}
           <a
-            href="/register"
+            href="/login"
             className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
           >
-            Register Now
+            Sign In Now
           </a>
         </p>
       </div>

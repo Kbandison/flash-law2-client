@@ -2,10 +2,12 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { login, reset } from "../features/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { useOutletContext } from "react-router-dom";
 
 export default function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const setIsLoggedIn = useOutletContext();
 
   const { user, isError, isLoading, isSuccess, message } = useSelector(
     (state) => state.auth
@@ -43,6 +45,7 @@ export default function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setIsLoggedIn(true);
     dispatch(login(loginData));
   };
 
