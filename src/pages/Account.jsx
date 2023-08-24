@@ -17,8 +17,6 @@ const Account = () => {
     phoneNumber: user.phoneNumber,
   });
 
-  console.log("User", editUser);
-
   const [edit, setEdit] = useState(false);
 
   const handleLogout = () => {};
@@ -97,6 +95,7 @@ const Account = () => {
           <h3>Last Name: {user.lastName}</h3>
           <h3>Email: {user.email}</h3>
           <h3>Phone: {user.phoneNumber}</h3>
+          <h3>Attorney Assigned: {user.attorney_assigned}</h3>
           <button onClick={handleEdit}>Edit</button>
         </div>
       )}

@@ -6,8 +6,18 @@ const getAttorneys = async () => {
   return response.data;
 };
 
-const addAttorney = async () => {
-  const response = await Axios.put(`/attorneys/add-attorney/${id}`, user);
+const addAttorney = async (attorney) => {
+  console.log(attorney);
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await Axios.put(
+    `/attorneys/add-attorney/${attorney}`,
+    config
+  );
 
   return response.data;
 };
