@@ -40,7 +40,9 @@ const Hero = () => {
             <div className="flex flex-col w-64">
               <button onClick={() => navigate("/login")}>Log In</button>
               <button onClick={() => navigate("/register")}>Sign Up</button>
-              <button onClick={() => navigate("/attorneys")}>Contact Us</button>
+              <button onClick={() => navigate("/contact-us")}>
+                Contact Us
+              </button>
             </div>
           </div>
         )}
