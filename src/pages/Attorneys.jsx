@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getAllAttorneys, reset } from "../features/attorneys/attorneySlice";
 import Axios from "../features/Axios";
+import { useNavigate } from "react-router-dom";
 
 const Attorneys = () => {
   const dispatch = useDispatch();
@@ -16,6 +17,8 @@ const Attorneys = () => {
     dispatch(getAllAttorneys());
     dispatch(reset());
   }, []);
+
+  const addAttorney = async () => {};
 
   return (
     <div className="flex justify-center mt-16">

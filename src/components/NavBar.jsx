@@ -155,7 +155,10 @@ function NavBar() {
                                 active ? "bg-gray-100" : "",
                                 "block px-4 py-2 text-sm text-gray-700"
                               )}
-                              onClick={() => dispatch(logout())}
+                              onClick={() => {
+                                dispatch(logout());
+                                navigate("/login");
+                              }}
                             >
                               Sign out
                             </a>
