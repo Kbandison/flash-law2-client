@@ -1,6 +1,10 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
-const AttorneyList = ({ attorney, addAttorney }) => {
+const AttorneyList = ({ attorney, addToAttorney, user }) => {
+  const navigate = useNavigate();
+
   return (
     <div>
       <li key={attorney.id} className="flex justify-between gap-x-6 py-5 my-8">
@@ -21,11 +25,17 @@ const AttorneyList = ({ attorney, addAttorney }) => {
                 </p>
               </div>
               <div className="flex gap-2">
-                <button onClick={() => addAttorney(attorney._id)}>
-                  Hire Attorney
+                {user && user.attorney_assigned !== attorney._id ? (
+                  <button onClick={() => addToAttorney(attorney._id)}>
+                    Hire Attorney
+                  </button>
+                ) : (
+                  <button disabled>Attorney Hired!</button>
+                )}
+                <button>Chat With Attorney</button>
+                <button onClick={() => navigate(`/attorney/${attorney._id}`)}>
+                  Learn More
                 </button>
-                <button>Message Attorney</button>
-                <button>Learn More</button>
               </div>
             </div>
           </div>

@@ -6,7 +6,7 @@ const Hero = () => {
   const navigate = useNavigate();
 
   let user = useSelector((state) => state.auth.user);
-  user = user && user.user;
+  user = user && user;
 
   return (
     <div className="bg-[url('./images/hero.jpg')] w-[100vw] h-[90vh] bg-cover bg-no-repeat bg-center">

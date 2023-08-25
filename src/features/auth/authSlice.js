@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import authService from "./authService";
 
 const user = JSON.parse(localStorage.getItem("user"));
+console.log("user", user);
 
 const initialState = {
   user: user ? user : null,
@@ -41,6 +42,33 @@ export const login = createAsyncThunk("auth/login", async (user, thunkAPI) => {
 export const logout = createAsyncThunk("auth/logout", async (thunkAPI) => {
   await authService.logoutUser();
 });
+
+export const getUser = createAsyncThunk("auth/getUser", async (_, thunkAPI) => {
+  try {
+    return JSON.parse(localStorage.getItem("user"));
+  } catch (error) {
+    const message =
+      (error.response && error.response.data && error.response.data.message) ||
+      error.message;
+    return thunkAPI.rejectWithValue(message);
+  }
+});
+
+export const updateUser = createAsyncThunk(
+  "auth/updateUser",
+  async (_, thunkAPI) => {
+    try {
+      return JSON.parse(localStorage.getItem("user"));
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message;
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
 
 export const authSlice = createSlice({
   name: "auth",
@@ -99,12 +127,11 @@ export const authSlice = createSlice({
         state.isError = true;
         state.message = action.payload;
         state.user = null;
-      });
+      })
 
-    // LOGOUT BUILDERS
+      // LOGOUT BUILDERS
 
-    // Pending
-    builder
+      // Pending
       .addCase(logout.pending, (state) => {
         state.isLoading = true;
       })
@@ -120,6 +147,30 @@ export const authSlice = createSlice({
       // Rejected
 
       .addCase(logout.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+
+      // UPDATE USER BUILDERS
+
+      // Pending
+      .addCase(updateUser.pending, (state) => {
+        state.isLoading = true;
+      })
+
+      // Fullfilled
+
+      .addCase(updateUser.fulfilled, (state, action) => {
+        console.log("fulfilled", action.payload);
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.user = action.payload;
+      })
+
+      // Rejected
+
+      .addCase(updateUser.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

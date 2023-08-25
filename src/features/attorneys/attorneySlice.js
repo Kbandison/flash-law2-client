@@ -2,10 +2,11 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import attorneyService from "./attorneyService";
 import { useSelector } from "react-redux";
 
-// const user = useSelector((state) => state.auth.user);
+const user = JSON.parse(localStorage.getItem("user"));
+// console.log("user", user);
 
 const initialState = {
-  // user: user.user.attorney_assigned,
+  user: user ? user.attorney_assigned : null,
   attorneys: [],
   isError: false,
   isSuccess: false,
@@ -33,8 +34,10 @@ export const addAttorney = createAsyncThunk(
   "attorneys/addAttorney",
   async (attorney, thunkAPI) => {
     try {
-      console.log("line", attorney);
-      return await attorneyService.addAttorney(attorney);
+      console.log("AddAttorney", attorney);
+      const token = JSON.parse(localStorage.getItem("token"));
+      console.log("token", token);
+      return await attorneyService.addAttorney(attorney, token);
     } catch (error) {
       const message =
         (error.response &&
@@ -76,21 +79,20 @@ export const attorneySlice = createSlice({
       /**********************ADD ATTORNEY******************/
 
       .addCase(addAttorney.pending, (state) => {
-        // state.isLoading = true;
+        state.isLoading = true;
       })
 
       .addCase(addAttorney.fulfilled, (state, action) => {
-        console.log("line", action);
-        // state.isLoading = false;
-        // state.isSuccess = true;
-        // state.attorneys = action.payload;
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.user = action.payload;
       })
 
       .addCase(addAttorney.rejected, (state, action) => {
-        console.log("line", action);
-        // state.isLoading = false;
-        // state.isError = true;
-        // state.message = action.payload;
+        console.log("rejected", action);
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
       });
   },
 });

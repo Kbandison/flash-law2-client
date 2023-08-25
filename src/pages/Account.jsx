@@ -8,7 +8,9 @@ const Account = () => {
   const navigate = useNavigate();
 
   let user = useSelector((state) => state.auth.user);
-  user = user && user.user;
+  user = user && user;
+
+  console.log(user);
 
   const [editUser, setEditUser] = useState({
     firstName: user.firstName,

@@ -6,7 +6,7 @@ import { logout } from "../features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
 
 const navigation = [
-  { name: "Home", href: "/", current: true },
+  { name: "Home", href: "/", current: false },
   { name: "Find An Attorney", href: "/attorneys", current: false },
   { name: "Contact Us", href: "/contact-us", current: false },
   { name: "About Us", href: "#", current: false },
@@ -27,7 +27,7 @@ function NavBar() {
   // console.log(state.name);
 
   const user = useSelector((state) => state.auth.user);
-  const loggedUser = user && user.user;
+  const loggedUser = user;
 
   // const currentSswitcher = (e) => {
   //   state.name = e;
@@ -105,8 +105,8 @@ function NavBar() {
                       <Menu.Button className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 w-8 h-8 justify-center items-center">
                         <span className="sr-only">Open user menu</span>
                         <h3 className="text-white font-bold">
-                          {user
-                            ? loggedUser.firstName.charAt(0).toUpperCase()
+                          {user.firstName
+                            ? user.firstName.charAt(0).toUpperCase()
                             : null}
                         </h3>
                       </Menu.Button>
@@ -123,6 +123,13 @@ function NavBar() {
                       <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                         <Menu.Item>
                           {({ active }) => (
+                            <p className="px-4 py-2 text-md text-gray-700 border-b-2">
+                              {user.email}
+                            </p>
+                          )}
+                        </Menu.Item>
+                        <Menu.Item>
+                          {({ active }) => (
                             <a
                               href="/account"
                               className={classNames(
@@ -134,19 +141,7 @@ function NavBar() {
                             </a>
                           )}
                         </Menu.Item>
-                        {/* <Menu.Item>
-                          {({ active }) => (
-                            <a
-                              href="#"
-                              className={classNames(
-                                active ? "bg-gray-100" : "",
-                                "block px-4 py-2 text-sm text-gray-700"
-                              )}
-                            >
-                              Settings
-                            </a>
-                          )}
-                        </Menu.Item> */}
+
                         <Menu.Item>
                           {({ active }) => (
                             <a

@@ -9,6 +9,7 @@ import Account from "./pages/Account";
 import AccountNav from "./components/Account/AccountNav";
 import NotFound from "./pages/NotFound";
 import ContactUs from "./pages/ContactUs";
+import AttorneyPage from "./pages/AttorneyPage";
 
 function App() {
   const router = createBrowserRouter([
@@ -21,6 +22,7 @@ function App() {
         { path: "/login", element: <Login /> },
         { path: "/register", element: <Register /> },
         { path: "/contact-us", element: <ContactUs /> },
+        { path: "/attorney/:id", element: <AttorneyPage /> },
         {
           element: <AccountNav />,
           children: [{ path: "/account", element: <Account /> }],

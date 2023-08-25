@@ -1,4 +1,55 @@
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { register, reset } from "../features/auth/authSlice";
+
 export const Register = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { user, isError, isLoading, isSuccess, message } = useSelector(
+    (state) => state.auth
+  );
+
+  const [loginMessage, setLoginMessage] = useState("");
+
+  const [loginData, setLoginData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    phoneNumber: "",
+  });
+
+  useEffect(() => {
+    if (isError) {
+      setLoginMessage(message);
+      console.log("error!");
+    }
+
+    if (isSuccess) {
+      navigate("/");
+    }
+
+    dispatch(reset());
+  }, [user, isError, isLoading, isSuccess, message, dispatch, navigate]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setLoginData((prev) => {
+      return {
+        ...prev,
+        [name]: value,
+      };
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(register(loginData));
+  };
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -13,10 +64,49 @@ export const Register = () => {
       </div>
 
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form
-          className="space-y-6"
-          // onClick={handleSubmit}
-        >
+        <form className="space-y-6" onSubmit={handleSubmit}>
+          <div className="block sm:flex">
+            <div>
+              <label
+                htmlFor="firstName"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                First Name
+              </label>
+              <div className="mt-2 sm:w-[50%] ">
+                <input
+                  id="firstName"
+                  name="firstName"
+                  type="text"
+                  autoComplete="First name"
+                  required
+                  className="block rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 mr-3 "
+                  value={loginData.firstName}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+            <div>
+              <label
+                htmlFor="lastName"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Last Name
+              </label>
+              <div className="mt-2 w-[50%]">
+                <input
+                  id="lastName"
+                  name="lastName"
+                  type="text"
+                  autoComplete="Last Name"
+                  required
+                  className="block rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  value={loginData.lastName}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+          </div>
           <div className="block sm:flex">
             <div>
               <label
@@ -33,8 +123,8 @@ export const Register = () => {
                   autoComplete="email"
                   required
                   className="block rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 mr-3 "
-                  // value={loginData.email}
-                  // onChange={handleChange}
+                  value={loginData.email}
+                  onChange={handleChange}
                 />
               </div>
             </div>

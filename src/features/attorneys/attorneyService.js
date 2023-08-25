@@ -6,8 +6,8 @@ const getAttorneys = async () => {
   return response.data;
 };
 
-const addAttorney = async (attorney) => {
-  console.log(attorney);
+const addAttorney = async (attorney, token) => {
+  console.log("Added", attorney);
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -15,11 +15,14 @@ const addAttorney = async (attorney) => {
   };
 
   const response = await Axios.put(
-    `/attorneys/add-attorney/${attorney}`,
+    `/users/add-attorney/${attorney}`,
+    {},
     config
   );
 
-  return response.data;
+  localStorage.setItem("user", JSON.stringify(response.data.user));
+
+  return response.data.user;
 };
 
 const attorneyService = {

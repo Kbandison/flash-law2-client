@@ -1,20 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   getAllAttorneys,
   addAttorney,
   reset,
 } from "../features/attorneys/attorneySlice";
+import { getUser, updateUser } from "../features/auth/authSlice";
 import Axios from "../features/Axios";
 import { useNavigate } from "react-router-dom";
 import AttorneyList from "../components/AttorneyList";
 
 const Attorneys = () => {
+  const [shouldRefresh, setShouldRefresh] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // let user = useSelector((state) => state.auth.user);
-  // user = user && user.user;
+  let user = useSelector((state) => state.auth.user);
 
   const { attorneys, isError, isLoading, isSuccess, message } = useSelector(
     (state) => state.attorneys.attorneys
@@ -23,10 +24,12 @@ const Attorneys = () => {
   useEffect(() => {
     dispatch(getAllAttorneys());
     dispatch(reset());
-  }, []);
+  }, [user, dispatch]);
 
-  const addAttorney = (id) => {
-    dispatch(addAttorney(id));
+  const addToAttorney = async (id) => {
+    await dispatch(addAttorney(id));
+    dispatch(updateUser());
+    dispatch(reset());
   };
 
   return (
@@ -35,7 +38,12 @@ const Attorneys = () => {
         {attorneys &&
           attorneys.map((attorney) => (
             <div key={attorney.id}>
-              <AttorneyList attorney={attorney} addAttorney={addAttorney} />
+              <AttorneyList
+                attorney={attorney}
+                addToAttorney={addToAttorney}
+                user={user}
+                setShouldRefresh={setShouldRefresh}
+              />
             </div>
           ))}
       </ul>
